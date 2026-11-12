@@ -3,6 +3,7 @@
     <div v-if="loading" class="loading">
       <Spinner />
     </div>
+    <p v-else-if="error" role="alert" class="p-8 text-center text-white">{{ error }}</p>
     <div v-else-if="summoner" class="mx-auto py-4 max-w-7xl min-h-screen">
       <SummonerHeaderModule :summoner="summoner" />
       <div class="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -34,12 +35,13 @@ import SummonerMasteryModule from '@/components/modules/summoner/SummonerMastery
 
 const route = useRoute()
 const summonerStore = useSummonerStore()
-const { summoner, ranks, matches, loading } = storeToRefs(summonerStore)
+const { summoner, ranks, matches, loading, error } = storeToRefs(summonerStore)
 
 const slug = computed(() => route.params.slug)
 const region = computed(() => route.params.region || null)
 
 async function load() {
+  summonerStore.clear()
   loading.value = true
   await summonerStore.fetchSummoner(slug.value, region.value)
 

@@ -61,7 +61,7 @@
           <div class="champ-content flex-1 flex flex-col items-center mt-4">
             <img
               :key="selectedChampion.id"
-              :src="`${SPLASH_URL}${selectedChampion.riot_id}_0.jpg`"
+              :src="championSplash(selectedChampion.riot_id)"
               :alt="selectedChampion.name"
               class="splash-img w-full h-64 object-cover rounded-xl border-2 border-amber-500/50 transition-opacity duration-500 opacity-0 object-top"
               :class="selectedChampion ? 'opacity-100' : 'opacity-0'"
@@ -113,13 +113,13 @@
 </template>
 
 <script setup>
+import { useMockApi } from '@/apiMode'
+import { championSplash } from '@/imageUrls'
 import { ref, computed, nextTick, onMounted } from 'vue'
 import { useChampionStore } from '@/stores/champion'
 import { SearchIcon } from 'lucide-vue-next'
 import Spinner from '@/components/ui/Spinner.vue'
 
-const SPLASH_URL =
-  'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/'
 const tags = ['Assassin', 'Fighter', 'Mage', 'Marksman', 'Support', 'Tank']
 
 const championStore = useChampionStore()
@@ -153,6 +153,11 @@ const toggleTag = tag => {
 
 const selectChampion = async champ => {
   selectedChampion.value = champ
+  abilities.value = []
+  if (useMockApi) {
+    abilities.value = champ.abilities || []
+    return
+  }
   const nameKey = champ.riot_id
   try {
     const res = await fetch(
@@ -182,7 +187,7 @@ const selectChampion = async champ => {
 // Scroll to first matching champion
 const scrollToFirstMatch = () => {
   nextTick(() => {
-    const firstMatch = champGrid.value.querySelector('.champion-card.border-amber-500')
+    const firstMatch = champGrid.value?.querySelector('.champion-card.border-amber-500')
     if (firstMatch) firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' })
   })
 }

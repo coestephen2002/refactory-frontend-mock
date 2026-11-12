@@ -44,7 +44,7 @@
           <div class="flex items-center gap-3">
             <div class="relative">
               <img
-                :src="`${ICON_URL}${p.champion_name}.png`"
+                :src="championIcon(p.champion_name)"
                 class="h-10 w-10 rounded-md shadow-inner"
               />
               <span
@@ -101,11 +101,12 @@
 </template>
 
 <script setup>
+import { championIcon } from '@/imageUrls'
 import { kda, formatGold, formatDmg } from '@/summonerUtils'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
-const ICON_URL = 'https://ddragon.leagueoflegends.com/cdn/15.16.1/img/champion/'
+
 
 const props = defineProps({
   label: String,

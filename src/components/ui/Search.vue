@@ -46,7 +46,7 @@
       >
         <img
           v-if="result.type === 'summoner'"
-          :src="`https://ddragon.leagueoflegends.com/cdn/15.16.1/img/profileicon/${result.profile_icon_id}.png`"
+          :src="profileIcon(result.profile_icon_id)"
           alt="Icon"
           class="summoner-icon"
         />
@@ -68,6 +68,7 @@
 </template>
 
 <script setup>
+import { profileIcon } from '@/imageUrls'
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSummonerStore } from '@/stores/summoner'

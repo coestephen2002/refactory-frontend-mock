@@ -113,6 +113,7 @@ export const useSummonerStore = defineStore('summoner', {
       this.summoner = null
       this.ranks = []
       this.matches = []
+      this.championMasteries = []
     }
   }
 })

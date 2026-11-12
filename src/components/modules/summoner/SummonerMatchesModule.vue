@@ -96,11 +96,12 @@
 </template>
 
 <script setup>
+import { championIcon } from '@/imageUrls'
 import { ref } from 'vue'
 import { kda, duration, humanWhen, formatGold, sortByPosition } from '@/summonerUtils'
 import MatchTeamTable from '@/components/modules/summoner/MatchTeamTable.vue'
 
-const ICON_URL = 'https://ddragon.leagueoflegends.com/cdn/15.16.1/img/champion/'
+
 
 // Props
 const props = defineProps({
@@ -120,7 +121,7 @@ const myPerf = (m) => {
 const isWin = (m) => !!(myPerf(m)?.win)
 const my = (m, key, fb) => myPerf(m)?.[key] ?? fb
 const roleOf = (m) => my(m, 'role', my(m, 'lane', ''))
-const champIcon = (m) => `${ICON_URL}${my(m, 'champion_name', '')}.png`
+const champIcon = (m) => championIcon(my(m, 'champion_name', ''))
 
 const labelLeft = (m) => (isWin(m) ? 'Victory' : 'Defeat')
 const labelRight = (m) => (isWin(m) ? 'Defeat' : 'Victory')
@@ -160,10 +161,4 @@ const matchCardClass = (m) =>
   }
 }
 
-/* Ember badge style */
-.badge-ember {
-  @apply rounded-full px-3 py-1 text-xs font-semibold text-white
-  bg-gradient-to-r from-orange-700/80 via-amber-600/80 to-orange-800/80
-  shadow-md backdrop-blur-sm;
-}
 </style>

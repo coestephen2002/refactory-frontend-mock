@@ -4,7 +4,7 @@
       <div class="relative inline-block">
         <img
           v-if="summoner?.profile_icon_id"
-          :src="`https://ddragon.leagueoflegends.com/cdn/15.16.1/img/profileicon/${summoner?.profile_icon_id}.png`"
+          :src="profileIcon(summoner?.profile_icon_id)"
           alt="icon"
           class="h-16 w-16 rounded-2xl ring-1 ring-slate-200/30"
         />
@@ -45,6 +45,7 @@
 </template>
 
 <script setup>
+import { profileIcon } from '@/imageUrls'
 defineProps({
   summoner: {
     type: Object,

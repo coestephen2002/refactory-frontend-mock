@@ -1,10 +1,13 @@
 import { defineStore } from 'pinia'
 import api from '@/api.js'
+import { useMockApi } from '@/apiMode'
+
+const tokenKey = useMockApi ? 'mock-token' : 'token'
 
 export const useAccountStore = defineStore('account', {
   state: () => ({
     account: null,
-    token: localStorage.getItem('token') || null,
+    token: localStorage.getItem(tokenKey) || null,
   }),
 
   actions: {
@@ -12,14 +15,14 @@ export const useAccountStore = defineStore('account', {
       const { data } = await api.post('/api/accounts/login', credentials)
       this.account = data.response.account
       this.token = data.response.token
-      localStorage.setItem('token', this.token)
+      localStorage.setItem(tokenKey, this.token)
     },
 
     async signup(credentials) {
       const { data } = await api.post('/api/accounts', credentials)
       this.account = data.response.account
       this.token = data.response.token
-      localStorage.setItem('token', this.token)
+      localStorage.setItem(tokenKey, this.token)
     },
 
     async view(account_id) {
@@ -39,7 +42,7 @@ export const useAccountStore = defineStore('account', {
       } finally {
         this.account = null
         this.token = null
-        localStorage.removeItem('token')
+        localStorage.removeItem(tokenKey)
       }
     },
   }

@@ -147,7 +147,7 @@ const championMasteries = computed(() => {
   const sorted = [...masteries]
     .sort((a, b) => b.points - a.points)
     .slice(0, 3);
-  return [sorted[0] || null, sorted[1] || null, sorted[2] || null];
+  return sorted;
 });
 
 // Helper functions to get champion details
